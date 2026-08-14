@@ -1,0 +1,60 @@
+!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Formulario</title>
+</head>
+
+<body>
+
+    <h2>Cadastro</h2>
+
+    <form action="http://127.0.0.1:5000/api/dados" method="POST"></formaction>
+        Nome:<br>
+        <input name="nome" type="text" required><br><br>
+
+        E-mail:<br>
+        <input name="E-mail" type="email" required><br><br>
+
+        Senha:<br>
+        <input name="Senha" type="password" required><br><br>
+
+
+
+        <br>
+        Marque as opções <br><br>
+        <input name="linguagem" type="checkbox"value="Python">Python<br>
+        <input name="linguagem" type="checkbox"value="Java">Java<br>
+        <input name="linguagem" type="checkbox"value="PHP">PHP<br>
+        <input name="linguagem" type="checkbox"value="Nenhum">Nenhum<br><br>
+
+       
+
+        <br>
+        <select name="opcao" id="opcao">
+            <option value=""disabled selected>Selecionar</option>
+            <option value="frontend">Front End</option>
+            <option value="backend">Back End</option>
+            <option value="fullstack">Full Stack</option>
+            <option value="dados">Analista de dados</option>
+        </select><br>
+
+        <br>
+         <input name="data" type="date">
+         <br><br>
+    
+            
+
+        <button type="submit">Enviar</button>
+        <button type="reset">Resetar</button>
+        <button type="button">Cancelar</button>
+        <br><br>
+        <img src="" alt="Exemplo de imagem da web">
+
+    </form>
+
+
+</body>
+
+</html>
