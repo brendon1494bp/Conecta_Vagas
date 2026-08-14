@@ -27,6 +27,19 @@ def logout():
     session.clear()
     return redirect(url_for('home'))
 
+<<<<<<< HEAD
 if __name__ == '__main__':
     app.run(debug=True)
  
+=======
+def get_db():
+    return mysql.connector.connect(
+        host='localhost',
+        port=3307,
+        user='root',
+        password='senac',
+        database='sistema_vagas_gdf'
+    )
+
+@pp.route('/')d
+>>>>>>> 4b9feb47b501aa73c1ccdd287f79e58b30117ddd
