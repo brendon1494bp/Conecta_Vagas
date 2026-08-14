@@ -4,8 +4,8 @@ app.secret_key= "chave_simples"
 
 @app.route('/')
 def home():
-    usuario_logado = session.get('usuario_logado')
-    return render_template('index.html',nome=usuario_logado)
+    usuario_logado = session.get('usuario') 
+    return render_template('login.html', nome=usuario_logado)
 
 @app.route('/login', methods=['POST'])
 def login():
