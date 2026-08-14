@@ -15,4 +15,4 @@ def get_db():
         database='sistema_vagas_gdf'
     )
 
-@pp.route('/')
+@pp.route('/')d
