@@ -10,6 +10,7 @@ COLLATE utf8mb4_unicode_ci;
 
 USE conecta_vagas;
 
+-- Desativa checagem de chave estrangeira temporariamente para permitir recriação limpa
 -- ============================================================
 -- TABELAS
 -- ============================================================
@@ -28,7 +29,7 @@ CREATE TABLE IF NOT EXISTS escola (
     email VARCHAR(150),
     CONSTRAINT fk_escola_ra FOREIGN KEY (id_ra)
         REFERENCES ra(id)
-        ON UPDATE CASCADE ON DELETE SET NULL
+        ON UPDATE RESTRICT ON DELETE RESTRICT
 ) ENGINE=InnoDB;
 
 CREATE TABLE IF NOT EXISTS serie (
@@ -55,13 +56,13 @@ CREATE TABLE IF NOT EXISTS aluno (
     turno_desejado VARCHAR(20),
     id_usuario_responsavel INT,
     CONSTRAINT fk_aluno_serie FOREIGN KEY (id_serie)
-        REFERENCES serie(id) ON UPDATE CASCADE ON DELETE RESTRICT,
+        REFERENCES serie(id) ON UPDATE RESTRICT ON DELETE RESTRICT,
     CONSTRAINT fk_aluno_escola_atual FOREIGN KEY (id_escola_atual)
-        REFERENCES escola(id) ON UPDATE CASCADE ON DELETE RESTRICT,
+        REFERENCES escola(id) ON UPDATE RESTRICT ON DELETE RESTRICT,
     CONSTRAINT fk_aluno_escola_desejada FOREIGN KEY (id_escola_desejada)
-        REFERENCES escola(id) ON UPDATE CASCADE ON DELETE SET NULL,
+        REFERENCES escola(id) ON UPDATE RESTRICT ON DELETE RESTRICT,
     CONSTRAINT fk_aluno_responsavel FOREIGN KEY (id_usuario_responsavel)
-        REFERENCES usuario(id) ON UPDATE CASCADE ON DELETE SET NULL
+        REFERENCES usuario(id) ON UPDATE RESTRICT ON DELETE RESTRICT
 ) ENGINE=InnoDB;
 
 CREATE TABLE IF NOT EXISTS match_troca (
@@ -71,13 +72,14 @@ CREATE TABLE IF NOT EXISTS match_troca (
     status VARCHAR(30) NOT NULL DEFAULT 'ABERTO',
     data_hora_criacao DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT fk_match_aluno_a FOREIGN KEY (id_aluno_a)
-        REFERENCES aluno(id) ON UPDATE CASCADE ON DELETE CASCADE,
+        REFERENCES aluno(id) ON UPDATE RESTRICT ON DELETE RESTRICT,
     CONSTRAINT fk_match_aluno_b FOREIGN KEY (id_aluno_b)
-        REFERENCES aluno(id) ON UPDATE CASCADE ON DELETE CASCADE,
+        REFERENCES aluno(id) ON UPDATE RESTRICT ON DELETE RESTRICT,
     CONSTRAINT chk_match_alunos_diferentes CHECK (id_aluno_a <> id_aluno_b),
     CONSTRAINT chk_status_match CHECK (
-        status IN ('ABERTO','ACEITO','RECUSADO','CONCLUIDO','CANCELADO')
-    )
+        status IN ('ABERTO','ACEITO','RECUSADO','CONCLUIDO','CANCELADO', 'PENDENTE')
+    ),
+    CONSTRAINT uk_match_alunos UNIQUE (id_aluno_a, id_aluno_b)
 ) ENGINE=InnoDB;
 
 CREATE TABLE IF NOT EXISTS mensagem (
@@ -88,9 +90,9 @@ CREATE TABLE IF NOT EXISTS mensagem (
     lida BOOLEAN NOT NULL DEFAULT FALSE,
     data_hora_envio DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT fk_mensagem_match FOREIGN KEY (id_match)
-        REFERENCES match_troca(id) ON UPDATE CASCADE ON DELETE CASCADE,
+        REFERENCES match_troca(id) ON UPDATE RESTRICT ON DELETE RESTRICT,
     CONSTRAINT fk_mensagem_remetente FOREIGN KEY (id_remetente)
-        REFERENCES usuario(id) ON UPDATE CASCADE ON DELETE CASCADE
+        REFERENCES usuario(id) ON UPDATE RESTRICT ON DELETE RESTRICT
 ) ENGINE=InnoDB;
 
 CREATE TABLE IF NOT EXISTS avaliacao (
@@ -101,9 +103,9 @@ CREATE TABLE IF NOT EXISTS avaliacao (
     comentario TEXT,
     data_hora_avaliacao DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT fk_avaliacao_match FOREIGN KEY (id_match)
-        REFERENCES match_troca(id) ON UPDATE CASCADE ON DELETE CASCADE,
+        REFERENCES match_troca(id) ON UPDATE RESTRICT ON DELETE RESTRICT,
     CONSTRAINT fk_avaliacao_avaliador FOREIGN KEY (id_usuario_avaliador)
-        REFERENCES usuario(id) ON UPDATE CASCADE ON DELETE CASCADE,
+        REFERENCES usuario(id) ON UPDATE RESTRICT ON DELETE RESTRICT,
     CONSTRAINT chk_nota CHECK (nota >= 1 AND nota <= 5),
     CONSTRAINT uk_avaliacao UNIQUE (id_match, id_usuario_avaliador)
 ) ENGINE=InnoDB;
