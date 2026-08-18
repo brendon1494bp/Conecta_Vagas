@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Login</title>
+    <title>Cadastro</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -41,24 +41,7 @@
             box-sizing: border-box;
         }
 
-        button {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 10px;
-            background-color: #494c50;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            font-size: 15px;
-            cursor: pointer;
-            transition: background-color 0.2s;
-        }
-
-        button:hover {
-            background-color: #0056b3;
-        }
-
-        .btn-cadastrar {
+        button, .btn-voltar {
             width: 100%;
             padding: 10px;
             margin-bottom: 10px;
@@ -68,15 +51,23 @@
             border-radius: 4px;
             font-size: 15px;
             cursor: pointer;
+            transition: background-color 0.2s;
             text-align: center;
             text-decoration: none;
             display: inline-block;
             box-sizing: border-box;
-            transition: background-color 0.2s;
         }
 
-        .btn-cadastrar:hover {
+        button:hover {
             background-color: #218838;
+        }
+
+        .btn-voltar {
+            background-color: #494c50;
+        }
+
+        .btn-voltar:hover {
+            background-color: #0056b3;
         }
     </style>
 </head>
@@ -84,20 +75,30 @@
 <body>
 
     <div class="login-card">
-        <h2>Login</h2>
+        <h2>Criar Conta</h2>
+    
+        <form action="http://127.0.0.1:5000/api/cadastrar" method="POST">
+            Nome completo:<br>
+            <input name="Nome" type="text" placeholder="Seu nome completo" required><br>
 
-        <form action="http://127.0.0.1:5000/api/dados" method="POST">
-            E-mail:<br>
-            <input name="E-mail" type="email" required><br>
-
+            Telefone:<br>
+            <input  name="telefone" type="tel" placeholder="(11) 99999-9999" required><br>
+    
+            E-mail:<br>_
+            <input name="E-mail" type="email" placeholder="seuemail@exemplo.com" required><br>
+    
             Senha:<br>
-            <input name="Senha" type="password" required><br>
-
-            <button type="submit">Entrar</button>
-
-            <div class="link-cadastro">
-                Não tem uma conta? <a href="cadastro.html">Cadastrar</a>
+            <input name="Senha" type="password" placeholder="Mínimo de 8 caracteres" required><br>
+    
+            Confirmar Senha:<br>
+            <input name="ConfirmaSenha" type="password" placeholder="Repita a senha" required><br>
+    
             
+    
+            <button type="submit">Confirmar</button>
+            <a href="login.html" class="btn-voltar">Voltar para o Login</a>
+        </form>
+    </div>
         </form>
     </div>
 
