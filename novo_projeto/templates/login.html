@@ -3,19 +3,10 @@
 
 <head>
     <meta charset="UTF-8">
-<<<<<<< HEAD
-    <title>Formulario</title>
-    <style>
-        
-        body {
-            font-family: Arial, sans-serif;
-            /* Fundo com degradê em verde, azul e amarelo */
-=======
     <title>Login - Conecta Vagas</title>
     <style>
         body {
             font-family: Arial, sans-serif;
->>>>>>> 4ccd0c4a13d0bdda86782771ce88340af618b8f9
             background: linear-gradient(135deg, #949494, #949494, #949494);
             display: flex;
             justify-content: center;
@@ -50,11 +41,7 @@
             box-sizing: border-box;
         }
 
-<<<<<<< HEAD
-        button {
-=======
         button, .btn-voltar {
->>>>>>> 4ccd0c4a13d0bdda86782771ce88340af618b8f9
             width: 100%;
             padding: 10px;
             margin-bottom: 10px;
@@ -65,20 +52,15 @@
             font-size: 15px;
             cursor: pointer;
             transition: background-color 0.2s;
-<<<<<<< HEAD
-=======
             text-align: center;
             text-decoration: none;
             display: inline-block;
             box-sizing: border-box;
->>>>>>> 4ccd0c4a13d0bdda86782771ce88340af618b8f9
         }
 
         button:hover {
             background-color: #0056b3;
         }
-<<<<<<< HEAD
-=======
 
         .btn-voltar {
             background-color: #6c757d;
@@ -87,7 +69,6 @@
         .btn-voltar:hover {
             background-color: #5a6268;
         }
->>>>>>> 4ccd0c4a13d0bdda86782771ce88340af618b8f9
     </style>
 </head>
 
@@ -96,25 +77,16 @@
     <div class="login-card">
         <h2>Login</h2>
 
-<<<<<<< HEAD
-        <form action="http://127.0.0.1:5000/api/dados" method="POST">
-            E-mail:<br>
-            <input name="E-mail" type="email" required><br>
-=======
-        <form action="dados_aluno.html" method="GET">
+        <form action="/login" method="POST">
+            
             E-mail ou Telefone:<br>
             <input name="login_usuario" type="text" required><br>
->>>>>>> 4ccd0c4a13d0bdda86782771ce88340af618b8f9
 
             Senha:<br>
-            <input name="Senha" type="password" required><br>
+            <input name="senha" type="password" required><br>
 
             <button type="submit">Entrar</button>
-<<<<<<< HEAD
-            
-=======
-            <a href="index.html" class="btn-voltar">Voltar</a>
->>>>>>> 4ccd0c4a13d0bdda86782771ce88340af618b8f9
+            <a href="/index.html" class="btn-voltar">Voltar</a>
         </form>
     </div>
 
