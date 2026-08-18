@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Seleção de Escolas</title>
+    <style>
+        /* 1. O fundo da página (mesmo gradiente cinza da imagem) */
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #949494, #949494, #949494);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        /* 2. O cartão branco central (mesmo estilo do .login-card) */
+        .cartao {
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 300px;
+        }
+
+        /* 3. Título (mesmo estilo do h2) */
+        h2 {
+            text-align: center;
+            color: #333333;
+            margin-top: 0;
+            margin-bottom: 20px;
+        }
+
+        /* 4. Estilo dos selects (copiando as regras da sua tag 'input') */
+        select {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            color: #333333;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Caixa central que agrupa nosso conteúdo -->
+    <div class="cartao">
+        <h2>Busca por RA</h2>
+        
+        <!-- Nosso primeiro Select -->
+        <select id="select-ra">
+            <option value="">Selecione uma RA...</option>
+            <option value="Plano Piloto">Plano Piloto</option>
+            <option value="Taguatinga">Taguatinga</option>
+            <option value="Ceilândia">Ceilândia</option>
+        </select>
+
+        <!-- Área onde o segundo Select vai aparecer -->
+        <div id="area-escolas"></div>
+    </div>
+
+    <!-- O mesmo JavaScript que criamos antes -->
+    <script>
+        const select = document.getElementById('select-ra');
+        const areaEscolas = document.getElementById('area-escolas');
+
+        select.addEventListener('change', async (evento) => {
+            const regiaoEscolhida = evento.target.value;
+            
+            if (regiaoEscolhida === "") {
+                areaEscolas.innerHTML = ""; 
+                return; 
+            }
+
+            try {
+                // Adicionei uma cor cinza para o texto de carregamento combinar com o tema
+                areaEscolas.innerHTML = "<p style='text-align: center; color: #333333;'>Carregando escolas...</p>";
+
+                const resposta = await fetch('https://6a830506cb486d2434032d2b.mockapi.io/escolas/schools', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ ra: regiaoEscolhida }) 
+                });
+
+                const escolas = await resposta.json();
+
+                let novoSelectHTML = `<select id="select-escola">`;
+                novoSelectHTML += `<option value="">Selecione uma escola...</option>`;
+
+                if (Array.isArray(escolas)) {
+                    escolas.forEach(escola => {
+                        novoSelectHTML += `<option value="${escola.id}">${escola.nome}</option>`;
+                    });
+                } else {
+                    novoSelectHTML += `<option value="${escolas.id}">${escolas.nome}</option>`;
+                }
+                
+                novoSelectHTML += `</select>`;
+                areaEscolas.innerHTML = novoSelectHTML;
+
+            } catch (erro) {
+                areaEscolas.innerHTML = "<p style='color: red; text-align: center;'>Erro ao buscar.</p>";
+                console.error(erro);
+            }
+        });
+    </script>
+</body>
+</html>
