@@ -50,4 +50,15 @@ def acompanhamento():
     return render_template("acompanhamento.html")
 
 
-app.run(debug=True)
+@app.get("/dados-aluno")
+def tela_dados_do_aluno():
+    return render_template("tela_dados_do_aluno.html")
+
+
+@app.get("/select-escolas")
+def teste_select_escolas():
+    return render_template("teste_select_escolas.htm")
+
+
+if __name__ == "__main__":
+    app.run(debug=True)
