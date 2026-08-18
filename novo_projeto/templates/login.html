@@ -1,59 +1,83 @@
-!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 
 <head>
     <meta charset="UTF-8">
     <title>Formulario</title>
+    <style>
+        
+        body {
+            font-family: Arial, sans-serif;
+            /* Fundo com degradê em verde, azul e amarelo */
+            background: linear-gradient(135deg, #949494, #949494, #949494);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .login-card {
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 300px;
+        }
+
+        h2 {
+            text-align: center;
+            color: #333333;
+            margin-top: 0;
+            margin-bottom: 20px;
+        }
+
+        input {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            background-color: #494c50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 15px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
 </head>
 
 <body>
 
-    <h2>Cadastro</h2>
+    <div class="login-card">
+        <h2>Login</h2>
 
-    <form action="http://127.0.0.1:5000/api/dados" method="POST"></formaction>
-        Nome:<br>
-        <input name="nome" type="text" required><br><br>
+        <form action="http://127.0.0.1:5000/api/dados" method="POST">
+            E-mail:<br>
+            <input name="E-mail" type="email" required><br>
 
-        E-mail:<br>
-        <input name="E-mail" type="email" required><br><br>
+            Senha:<br>
+            <input name="Senha" type="password" required><br>
 
-        Senha:<br>
-        <input name="Senha" type="password" required><br><br>
-
-
-
-        <br>
-        Marque as opções <br><br>
-        <input name="linguagem" type="checkbox"value="Python">Python<br>
-        <input name="linguagem" type="checkbox"value="Java">Java<br>
-        <input name="linguagem" type="checkbox"value="PHP">PHP<br>
-        <input name="linguagem" type="checkbox"value="Nenhum">Nenhum<br><br>
-
-       
-
-        <br>
-        <select name="opcao" id="opcao">
-            <option value=""disabled selected>Selecionar</option>
-            <option value="frontend">Front End</option>
-            <option value="backend">Back End</option>
-            <option value="fullstack">Full Stack</option>
-            <option value="dados">Analista de dados</option>
-        </select><br>
-
-        <br>
-         <input name="data" type="date">
-         <br><br>
-    
+            <button type="submit">Entrar</button>
             
-
-        <button type="submit">Enviar</button>
-        <button type="reset">Resetar</button>
-        <button type="button">Cancelar</button>
-        <br><br>
-        <img src="" alt="Exemplo de imagem da web">
-
-    </form>
-
+        </form>
+    </div>
 
 </body>
 
