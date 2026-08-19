@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <title>Seleção de Escolas</title>
     <style>
-        /* 1. O fundo da página (mesmo gradiente cinza da imagem) */
         body {
             font-family: Arial, sans-serif;
             background: linear-gradient(135deg, #949494, #949494, #949494);
@@ -15,7 +14,6 @@
             margin: 0;
         }
 
-        /* 2. O cartão branco central (mesmo estilo do .login-card) */
         .cartao {
             background: #ffffff;
             padding: 30px;
@@ -25,7 +23,6 @@
             max-width: 300px;
         }
 
-        /* 3. Título (mesmo estilo do h2) */
         h2 {
             text-align: center;
             color: #333333;
@@ -33,7 +30,6 @@
             margin-bottom: 20px;
         }
 
-        /* 4. Estilo dos selects (copiando as regras da sua tag 'input') */
         select {
             width: 100%;
             padding: 8px;
@@ -48,23 +44,19 @@
 </head>
 <body>
 
-    <!-- Caixa central que agrupa nosso conteúdo -->
     <div class="cartao">
-        <h2>Busca por  Cidade/RA</h2>
+        <h2>Busca por Cidade/RA</h2>
         
-        <!-- Nosso primeiro Select -->
         <select id="select-ra">
             <option value="">Selecione uma Cidade/RA...</option>
-            <option value="Plano Piloto">Plano Piloto</option>
-            <option value="Taguatinga">Taguatinga</option>
-            <option value="Ceilândia">Ceilândia</option>
+            <option value="1">Plano Piloto</option>
+            <option value="2">Taguatinga</option>
+            <option value="3">Ceilândia</option>
         </select>
 
-        <!-- Área onde o segundo Select vai aparecer -->
         <div id="area-escolas"></div>
     </div>
 
-    <!-- O mesmo JavaScript que criamos antes -->
     <script>
         const select = document.getElementById('select-ra');
         const areaEscolas = document.getElementById('area-escolas');
@@ -78,14 +70,15 @@
             }
 
             try {
-                // Adicionei uma cor cinza para o texto de carregamento combinar com o tema
                 areaEscolas.innerHTML = "<p style='text-align: center; color: #333333;'>Carregando escolas...</p>";
 
-                const resposta = await fetch('https://6a830506cb486d2434032d2b.mockapi.io/escolas/schools', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ ra: regiaoEscolhida }) 
-                });
+                const idRa = regiaoEscolhida;
+
+                // --- A MUDANÇA FOI APENAS AQUI ---
+                // Agora passamos o idRa diretamente na URL usando ?ra=
+                // O método GET já é o padrão do fetch, então não precisamos declarar 'method', 'headers' ou 'body'.
+                
+                const resposta = await fetch(`http://127.0.0.1:5000/escolas/buscar-por-ra?ra=${idRa}`);
 
                 const escolas = await resposta.json();
 
