@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 
 from flask import Flask, render_template, request, redirect, url_for, session, jsonify
 app = Flask(__name__)
@@ -33,6 +34,16 @@ if __name__ == '__main__':
     app.run(debug=True)
  
 =======
+=======
+from flask import flask, render_template,request,redirect,url_for,session,jsonify
+import mysql.connector
+from werkzeug.security import generate_password_hash, check_password_hash
+
+app = flask(__name__)
+
+app.secret_key = 'sua_chave_secreta_aqui'
+
+>>>>>>> 87a8d708145db2aef39bb226b61fd2582644a02e
 def get_db():
     return mysql.connector.connect(
         host='localhost',
@@ -40,6 +51,7 @@ def get_db():
         user='root',
         password='senac',
         database='sistema_vagas_gdf'
+<<<<<<< HEAD
 =======
 from flask import Flask,request,jsonify
 from flask_mysqldb import MySQL
@@ -96,3 +108,8 @@ if __name__ == '__main__':
 >>>>>>> 4b9feb47b501aa73c1ccdd287f79e58b30117ddd
 =======
 >>>>>>> 96232fe6a1b2cf9ac5d94d6a06babc8334238528
+=======
+    )
+
+@pp.route('/')
+>>>>>>> 87a8d708145db2aef39bb226b61fd2582644a02e

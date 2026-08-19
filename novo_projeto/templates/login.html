@@ -3,10 +3,12 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Login - Conecta Vagas</title>
+    <title>Formulario</title>
     <style>
+        
         body {
             font-family: Arial, sans-serif;
+            /* Fundo com degradê em verde, azul e amarelo */
             background: linear-gradient(135deg, #949494, #949494, #949494);
             display: flex;
             justify-content: center;
@@ -41,7 +43,7 @@
             box-sizing: border-box;
         }
 
-        button, .btn-voltar {
+        button {
             width: 100%;
             padding: 10px;
             margin-bottom: 10px;
@@ -52,22 +54,10 @@
             font-size: 15px;
             cursor: pointer;
             transition: background-color 0.2s;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            box-sizing: border-box;
         }
 
         button:hover {
             background-color: #0056b3;
-        }
-
-        .btn-voltar {
-            background-color: #6c757d;
-        }
-
-        .btn-voltar:hover {
-            background-color: #5a6268;
         }
     </style>
 </head>
@@ -77,18 +67,28 @@
     <div class="login-card">
         <h2>Login</h2>
 
+<<<<<<< HEAD
         <!-- Corrigido: Removido o '>' duplicado -->
         <form action="/login" method="POST">
             
             E-mail ou Telefone:<br>
             <!-- Corrigido: name alterado para "email" -->
             <input name="email" type="text" required><br>
+=======
+        <form action="http://127.0.0.1:5000/api/dados" method="POST">
+            E-mail:<br>
+            <input name="E-mail" type="email" required><br>
+>>>>>>> 87a8d708145db2aef39bb226b61fd2582644a02e
 
             Senha:<br>
-            <input name="senha" type="password" required><br>
+            <input name="Senha" type="password" required><br>
 
             <button type="submit">Entrar</button>
+<<<<<<< HEAD
             <a href="/" class="btn-voltar">Voltar</a>
+=======
+            
+>>>>>>> 87a8d708145db2aef39bb226b61fd2582644a02e
         </form>
     </div>
 
