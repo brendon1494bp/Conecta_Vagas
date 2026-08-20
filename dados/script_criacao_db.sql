@@ -46,40 +46,45 @@ CREATE TABLE IF NOT EXISTS usuario (
     telefone VARCHAR(20)
 ) ENGINE=InnoDB;
 
-CREATE TABLE IF NOT EXISTS aluno (
+CREATE TABLE IF NOT EXISTS solicitacao (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nome VARCHAR(150) NOT NULL,
+    endereco VARCHAR(255),
     id_serie INT NOT NULL,
     id_escola_atual INT NOT NULL,
+    id_ra_desejada INT,
     id_escola_desejada INT,
     turno_atual VARCHAR(20),
     turno_desejado VARCHAR(20),
     id_usuario_responsavel INT,
-    CONSTRAINT fk_aluno_serie FOREIGN KEY (id_serie)
+    motivo_troca TEXT,
+    CONSTRAINT fk_solicitacao_serie FOREIGN KEY (id_serie)
         REFERENCES serie(id) ON UPDATE RESTRICT ON DELETE RESTRICT,
-    CONSTRAINT fk_aluno_escola_atual FOREIGN KEY (id_escola_atual)
+    CONSTRAINT fk_solicitacao_escola_atual FOREIGN KEY (id_escola_atual)
         REFERENCES escola(id) ON UPDATE RESTRICT ON DELETE RESTRICT,
-    CONSTRAINT fk_aluno_escola_desejada FOREIGN KEY (id_escola_desejada)
+    CONSTRAINT fk_solicitacao_ra_desejada FOREIGN KEY (id_ra_desejada)
+        REFERENCES ra(id) ON UPDATE RESTRICT ON DELETE RESTRICT,
+    CONSTRAINT fk_solicitacao_escola_desejada FOREIGN KEY (id_escola_desejada)
         REFERENCES escola(id) ON UPDATE RESTRICT ON DELETE RESTRICT,
-    CONSTRAINT fk_aluno_responsavel FOREIGN KEY (id_usuario_responsavel)
+    CONSTRAINT fk_solicitacao_responsavel FOREIGN KEY (id_usuario_responsavel)
         REFERENCES usuario(id) ON UPDATE RESTRICT ON DELETE RESTRICT
 ) ENGINE=InnoDB;
 
 CREATE TABLE IF NOT EXISTS match_troca (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    id_aluno_a INT NOT NULL,
-    id_aluno_b INT NOT NULL,
+    id_solicitacao_a INT NOT NULL,
+    id_solicitacao_b INT NOT NULL,
     status VARCHAR(30) NOT NULL DEFAULT 'ABERTO',
     data_hora_criacao DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    CONSTRAINT fk_match_aluno_a FOREIGN KEY (id_aluno_a)
-        REFERENCES aluno(id) ON UPDATE RESTRICT ON DELETE RESTRICT,
-    CONSTRAINT fk_match_aluno_b FOREIGN KEY (id_aluno_b)
-        REFERENCES aluno(id) ON UPDATE RESTRICT ON DELETE RESTRICT,
-    CONSTRAINT chk_match_alunos_diferentes CHECK (id_aluno_a <> id_aluno_b),
+    CONSTRAINT fk_match_solicitacao_a FOREIGN KEY (id_solicitacao_a)
+        REFERENCES solicitacao(id) ON UPDATE RESTRICT ON DELETE RESTRICT,
+    CONSTRAINT fk_match_solicitacao_b FOREIGN KEY (id_solicitacao_b)
+        REFERENCES solicitacao(id) ON UPDATE RESTRICT ON DELETE RESTRICT,
+    CONSTRAINT chk_match_solicitacoes_diferentes CHECK (id_solicitacao_a <> id_solicitacao_b),
     CONSTRAINT chk_status_match CHECK (
         status IN ('ABERTO','ACEITO','RECUSADO','CONCLUIDO','CANCELADO', 'PENDENTE')
     ),
-    CONSTRAINT uk_match_alunos UNIQUE (id_aluno_a, id_aluno_b)
+    CONSTRAINT uk_match_solicitacoes UNIQUE (id_solicitacao_a, id_solicitacao_b)
 ) ENGINE=InnoDB;
 
 CREATE TABLE IF NOT EXISTS mensagem (
@@ -115,12 +120,12 @@ CREATE TABLE IF NOT EXISTS avaliacao (
 -- ============================================================
 
 CREATE INDEX idx_escola_ra ON escola(id_ra);
-CREATE INDEX idx_aluno_serie ON aluno(id_serie);
-CREATE INDEX idx_aluno_escola_atual ON aluno(id_escola_atual);
-CREATE INDEX idx_aluno_escola_desejada ON aluno(id_escola_desejada);
-CREATE INDEX idx_aluno_responsavel ON aluno(id_usuario_responsavel);
-CREATE INDEX idx_match_aluno_a ON match_troca(id_aluno_a);
-CREATE INDEX idx_match_aluno_b ON match_troca(id_aluno_b);
+CREATE INDEX idx_solicitacao_serie ON solicitacao(id_serie);
+CREATE INDEX idx_solicitacao_escola_atual ON solicitacao(id_escola_atual);
+CREATE INDEX idx_solicitacao_escola_desejada ON solicitacao(id_escola_desejada);
+CREATE INDEX idx_solicitacao_responsavel ON solicitacao(id_usuario_responsavel);
+CREATE INDEX idx_match_solicitacao_a ON match_troca(id_solicitacao_a);
+CREATE INDEX idx_match_solicitacao_b ON match_troca(id_solicitacao_b);
 CREATE INDEX idx_match_status ON match_troca(status);
 CREATE INDEX idx_mensagem_match ON mensagem(id_match);
 CREATE INDEX idx_mensagem_remetente ON mensagem(id_remetente);

@@ -1,0 +1,7 @@
+| Cor               | HEX         | RGB               | Uso sugerido                  |
+| ----------------- | ----------- | ----------------- | ----------------------------- |
+| 🟢 Verde profundo | **#006B4F** | **0, 107, 79**    | apoio / natureza / confiança  |
+| 🟡 Dourado        | **#D9A51A** | **217, 165, 26**  | cor principal / destaque      |
+| 🔵 Azul           | **#008FC4** | **0, 143, 196**   | conexão / viagem / tecnologia |
+| ⚫ Preto           | **#050505** | **5, 5, 5**       | tipografia                    |
+| ⚪ Off-white       | **#FDFCF8** | **253, 252, 248** | fundo                         |
