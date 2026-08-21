@@ -73,16 +73,13 @@ Configuraremos o MySQL para operar em uma porta diferente da padrão (3306), per
 
 ```bash
 # 1. Instale o servidor MySQL
-sudo apt install mysql-server -y
-
-# 2. Execute o script de segurança do MySQL para remover usuários anônimos e bancos de teste
-sudo mysql_secure_installation
+sudo apt install mariadb-server -y
 ```
 
 ### Alterando a Porta e Permitindo Acesso Externo
 ```bash
 # 3. Abra o arquivo de configuração do MySQL
-sudo nano /etc/mysql/mysql.conf.d/mysqld.cnf
+sudo nano /etc/mysql/mariadb.conf.d/50-server.cnf
 ```
 *Localize e altere as seguintes linhas para escutar em todas as interfaces e mudar a porta padrão para uma de sua escolha (ex: 53306):*
 ```text
@@ -92,7 +89,7 @@ bind-address    = 0.0.0.0
 
 ```bash
 # 4. Reinicie o MySQL para aplicar
-sudo systemctl restart mysql
+sudo systemctl restart mariadb
 
 # 5. Crie um usuário administrativo para acesso externo (Substitua as credenciais)
 sudo mysql -u root -p -e "CREATE USER 'admin_externo'@'%' IDENTIFIED BY 'SuaSenhaMuitoForte123!';"
@@ -156,6 +153,10 @@ seu-dominio.com.br {
 sudo systemctl reload caddy
 ```
 
+```bash
+#4.  instala a CA raiz local do Caddy no trust store da máquina
+sudo caddy trust
+```
 ---
 
 ## Passo 7: Proteção Adicional com Cloudflare (Opcional)

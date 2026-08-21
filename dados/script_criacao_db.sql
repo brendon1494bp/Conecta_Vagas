@@ -43,7 +43,8 @@ CREATE TABLE IF NOT EXISTS usuario (
     email VARCHAR(150) NOT NULL UNIQUE,
     senha VARCHAR(255) NOT NULL,
     cpf VARCHAR(14) UNIQUE,
-    telefone VARCHAR(20)
+    telefone VARCHAR(20),
+    endereco VARCHAR(255)
 ) ENGINE=InnoDB;
 
 CREATE TABLE IF NOT EXISTS solicitacao (
@@ -54,10 +55,16 @@ CREATE TABLE IF NOT EXISTS solicitacao (
     id_escola_atual INT NOT NULL,
     id_ra_desejada INT,
     id_escola_desejada INT,
-    turno_atual VARCHAR(20),
-    turno_desejado VARCHAR(20),
-    id_usuario_responsavel INT,
+    turno_atual VARCHAR(20) NOT NULL,
+    turno_desejado VARCHAR(20) NOT NULL,
+    id_usuario_responsavel INT NOT NULL,
     motivo_troca TEXT,
+    status VARCHAR(30) NOT NULL DEFAULT 'AGUARDANDO_MATCH',
+    data_criacao DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    data_atualizacao DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT chk_turno_atual CHECK (turno_atual IN ('MATUTINO','VESPERTINO','NOTURNO','INTEGRAL')),
+    CONSTRAINT chk_turno_desejado CHECK (turno_desejado IN ('MATUTINO','VESPERTINO','NOTURNO','INTEGRAL')),
+    CONSTRAINT chk_status_solicitacao CHECK (status IN ('AGUARDANDO_MATCH','EM_NEGOCIACAO','CONCLUIDA','CANCELADA')),
     CONSTRAINT fk_solicitacao_serie FOREIGN KEY (id_serie)
         REFERENCES serie(id) ON UPDATE RESTRICT ON DELETE RESTRICT,
     CONSTRAINT fk_solicitacao_escola_atual FOREIGN KEY (id_escola_atual)
@@ -74,7 +81,7 @@ CREATE TABLE IF NOT EXISTS match_troca (
     id INT AUTO_INCREMENT PRIMARY KEY,
     id_solicitacao_a INT NOT NULL,
     id_solicitacao_b INT NOT NULL,
-    status VARCHAR(30) NOT NULL DEFAULT 'ABERTO',
+    status VARCHAR(30) NOT NULL DEFAULT 'ATIVO',
     data_hora_criacao DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT fk_match_solicitacao_a FOREIGN KEY (id_solicitacao_a)
         REFERENCES solicitacao(id) ON UPDATE RESTRICT ON DELETE RESTRICT,
@@ -82,7 +89,7 @@ CREATE TABLE IF NOT EXISTS match_troca (
         REFERENCES solicitacao(id) ON UPDATE RESTRICT ON DELETE RESTRICT,
     CONSTRAINT chk_match_solicitacoes_diferentes CHECK (id_solicitacao_a <> id_solicitacao_b),
     CONSTRAINT chk_status_match CHECK (
-        status IN ('ABERTO','ACEITO','RECUSADO','CONCLUIDO','CANCELADO', 'PENDENTE')
+        status IN ('ATIVO','CONCLUIDO','CANCELADO')
     ),
     CONSTRAINT uk_match_solicitacoes UNIQUE (id_solicitacao_a, id_solicitacao_b)
 ) ENGINE=InnoDB;
@@ -93,6 +100,7 @@ CREATE TABLE IF NOT EXISTS mensagem (
     mensagem TEXT NOT NULL,
     id_remetente INT NOT NULL,
     lida BOOLEAN NOT NULL DEFAULT FALSE,
+    tipo VARCHAR(20) NOT NULL DEFAULT 'USUARIO',
     data_hora_envio DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT fk_mensagem_match FOREIGN KEY (id_match)
         REFERENCES match_troca(id) ON UPDATE RESTRICT ON DELETE RESTRICT,

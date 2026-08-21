@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block title %}Início | Conecta Vagas{% endblock %}
+{% block content %}
+<div class="dashboard-head mb-4"><div><h1>Olá, {{ current_user['nome'].split()[0] }}.</h1></div><a class="btn btn-primary" href="{{ url_for('nova_solicitacao') }}">+ Nova solicitação</a></div>
+<section class="notice mb-4"><strong>Como funciona</strong><span>Você informa a escola e o turno atuais, além do que procura. O sistema compara essas informações com outras solicitações. Quando encontra critérios compatíveis, abre uma conversa privada para vocês conversarem.</span></section>
+<section class="disclaimer mb-5"><strong>Importante:</strong> o Conecta Vagas não é um aplicativo do GDF, não representa a Secretaria de Educação e não garante a troca ou a matrícula. Somos uma ferramenta independente para facilitar o encontro entre pais e responsáveis.</section>
+<h2 id="solicitacoes">Minhas solicitações</h2>
+{% if solicitacoes %}<div class="row g-3">{% for item in solicitacoes %}<div class="col-12 col-md-6"><article class="request-card"><div class="d-flex justify-content-between gap-2"><strong>{{ item['nome'] }}</strong><span class="status status-{{ item['status']|lower }}">{{ status_label(item['status']) }}</span></div><p class="route">{{ item['escola_atual'] }} <span>→</span> {{ item['escola_desejada'] or 'A definir' }}</p><small>{{ item['serie'] }} · {{ item['turno_atual'] }} → {{ item['turno_desejado'] }}</small><a class="stretched-link" href="{{ url_for('detalhe_solicitacao', id=item['id']) }}" aria-label="Ver solicitação de {{ item['nome'] }}"></a></article></div>{% endfor %}</div>{% else %}<div class="empty surface"><p>Para iniciar, clique no botão abaixo.</p><a class="btn btn-primary" href="{{ url_for('nova_solicitacao') }}">Criar minha solicitação</a></div>{% endif %}
+{% if matches %}<h2 id="conversas" class="mt-5">Conversas abertas <span class="chat-badge">{{ chat_nao_lidas }} novas</span></h2>{% endif %}
+{% endblock %}
