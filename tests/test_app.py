@@ -66,6 +66,38 @@ class ConectaVagasTest(unittest.TestCase):
         response = self.create_request(1, 47, "MATUTINO", "MATUTINO", cep="")
         self.assertEqual(response.status_code, 302)
 
+    def test_request_match_polling_endpoint_reports_match_state(self):
+        self.register("polling-a@example.com", "15350946056", "Responsável Polling A")
+        self.create_request(1, 47, "MATUTINO", "VESPERTINO")
+        response = self.client.get("/api/solicitacoes/1/match")
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.get_json(), {"matched": False, "match_id": None, "status": "AGUARDANDO_MATCH"})
+
+        self.client.get("/sair")
+        self.register("polling-b@example.com", "98765432100", "Responsável Polling B")
+        self.create_request(47, 1, "VESPERTINO", "MATUTINO")
+        self.client.get("/sair")
+        self.client.post("/login", data={"csrf": self.token(), "email": "polling-a@example.com", "senha": "senha-segura"})
+        response = self.client.get("/api/solicitacoes/1/match")
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue(response.get_json()["matched"])
+        self.assertEqual(response.get_json()["status"], "EM_NEGOCIACAO")
+
+        self.client.get("/sair")
+        self.register("polling-c@example.com", "93541134780", "Responsável Polling C")
+        response = self.client.get("/api/solicitacoes/1/match")
+        self.assertEqual(response.status_code, 404)
+
+    def test_match_page_renders_for_participant(self):
+        self.register("match-page-a@example.com", "93541134780", "Responsável Match A")
+        self.create_request(1, 47, "MATUTINO", "VESPERTINO")
+        self.client.get("/sair")
+        self.register("match-page-b@example.com", "98765432100", "Responsável Match B")
+        self.create_request(47, 1, "VESPERTINO", "MATUTINO")
+        response = self.client.get("/matches/1")
+        self.assertEqual(response.status_code, 200)
+        self.assertIn("Conversa privada", response.get_data(as_text=True))
+
     def test_authenticated_pages_have_collapsible_menu(self):
         self.register("menu@example.com", "15350946056", "Responsável Menu")
         response = self.client.get("/dashboard")

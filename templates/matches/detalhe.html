@@ -109,6 +109,7 @@
 
 <script>
     const chatId = {{ item['id'] }};
+    const usuarioAtualId = {{ current_user['id'] }};
     const box = document.querySelector('#chat-messages');
 
     async function atualizarChat() {
@@ -124,10 +125,8 @@
             .forEach(msg => {
                 const div = document.createElement('div');
 
-                div.className = `message ${msg.tipo === 'SISTEMA' ? 'system' : (msg.id_remetente === {{ current_user['id'] }
-            } ?'mine': '')
-    }`;
-                div.dataset.messageId=msg.id;
+                div.className = `message ${msg.tipo === 'SISTEMA' ? 'system' : (msg.id_remetente === usuarioAtualId ? 'mine' : '')}`;
+                div.dataset.messageId = msg.id;
 
                 const autor=document.createElement('small');
                 autor.textContent=msg.tipo==='SISTEMA'?'Conecta Vagas':msg.remetente;

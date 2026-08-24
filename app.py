@@ -259,6 +259,27 @@ def escolas_por_ra():
     escolas = get_db().execute("SELECT MIN(id) id, nome FROM escola WHERE id_ra=? GROUP BY nome ORDER BY nome", (ra_id,)).fetchall()
     return jsonify([dict(escola) for escola in escolas])
 
+@app.get("/api/solicitacoes/<int:id>/match")
+@login_required
+def verificar_match_solicitacao(id):
+    db = get_db()
+    solicitacao = db.execute(
+        "SELECT id, status FROM solicitacao WHERE id=? AND id_usuario_responsavel=?",
+        (id, session["user_id"]),
+    ).fetchone()
+    if not solicitacao:
+        return jsonify({"erro": "Solicitação não encontrada."}), 404
+    match = db.execute(
+        "SELECT id FROM match_troca WHERE (id_solicitacao_a=? OR id_solicitacao_b=?) AND status='ATIVO' LIMIT 1",
+        (id, id),
+    ).fetchone()
+    resposta = {
+        "matched": bool(match),
+        "match_id": match["id"] if match else None,
+        "status": solicitacao["status"],
+    }
+    return jsonify(resposta)
+
 def validar_solicitacao(form):
     nome = form.get("nome", "").strip()
     if not nome or len(nome) > 150: raise ValueError("nome do aluno")
