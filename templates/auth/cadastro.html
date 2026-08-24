@@ -1,1 +1,27 @@
-{% extends 'base.html' %}{% block title %}Criar conta | Conecta Vagas{% endblock %}{% block content %}<div class="form-shell"><div class="eyebrow">Primeiro passo</div><h1>Crie sua conta</h1><p class="text-muted">Comece com seus dados de acesso. Depois, completaremos seu perfil.</p><form method="post" class="surface"><input type="hidden" name="csrf" value="{{ csrf }}"><label>E-mail<input class="form-control" type="email" name="email" required></label><label>Senha<input class="form-control" type="password" name="senha" minlength="8" required></label><label>Confirme a senha<input class="form-control" type="password" name="confirmacao" minlength="8" required></label><button class="btn btn-primary">Continuar</button></form></div>{% endblock %}
+{% extends 'base.html' %}{% block title %}Criar conta | Conecta Vagas{% endblock %}{% block content %}<div
+    class="form-shell">
+    <div class="eyebrow">Primeiro passo</div>
+    <h1>Crie sua conta</h1>
+    <p class="text-muted">Comece com seus dados de acesso. Depois, completaremos seu perfil.</p>
+    <form method="post" class="surface">
+        <input type="hidden" name="csrf" value="{{ csrf }}">
+        <label>E-mail<input class="form-control" type="email" name="email" required></label>
+        <label>Senha<span class="password-field"><input class="form-control" type="password" name="senha" minlength="8"
+                    required>
+                <button type="button" class="password-toggle" aria-label="Mostrar senha">&#128065;</button>
+            </span>
+        </label>
+        <label>Confirme a senha
+            <span class="password-field">
+                <input class="form-control" type="password" name="confirmacao" minlength="8" required>
+                <button type="button" class="password-toggle"
+                    aria-label="Mostrar confirmação da senha">&#128065;</button>
+            </span>
+        </label>
+        <div class="d-flex align-items-center gap-5">
+            <button class="btn btn-sm btn-primary">Continuar</button>
+            <a href="/login">Voltar</a>
+        </div>
+    </form>
+</div>
+<script src="{{ url_for('static', filename='forms.js') }}"></script>{% endblock %}

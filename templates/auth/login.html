@@ -1,3 +1,17 @@
 {% extends 'base.html' %}{% block title %}Entrar | Conecta Vagas{% endblock %}{% block content %}
-<div class="auth-shell"><img class="login-logo" src="{{ url_for('static', filename='logo.png') }}" alt="Conecta Vagas"><h1>Encontre uma escola que combine com sua rotina.</h1><p class="lead">Conecte-se a responsáveis que procuram uma troca compatível.</p><form method="post" class="surface"><input type="hidden" name="csrf" value="{{ csrf }}"><label>E-mail<input class="form-control" type="email" name="email" required autocomplete="email"></label><label>Senha<input class="form-control" type="password" name="senha" required autocomplete="current-password"></label><button class="btn btn-primary w-100">Entrar</button><div class="form-links"><a href="{{ url_for('recuperar') }}">Esqueci minha senha</a><a href="{{ url_for('cadastro') }}">Criar conta</a></div></form></div>
+<div class="auth-shell"><img class="login-logo" src="{{ url_for('static', filename='logo.png') }}" alt="Conecta Vagas">
+    <h1>Encontre uma escola que combine com sua rotina.</h1>
+    <p class="lead">Conecte-se a responsáveis que procuram uma troca compatível.</p>
+    <form method="post" class="surface"><input type="hidden" name="csrf" value="{{ csrf }}"><label>E-mail<input
+                class="form-control" type="email" name="email" required autocomplete="email"></label><label>Senha<span
+                class="password-field"><input class="form-control" type="password" name="senha" required
+                    autocomplete="current-password"><button type="button" class="password-toggle"
+                    aria-label="Mostrar senha">&#128065;</button></span></label><button
+            class="btn btn-primary w-100">Entrar</button>
+            <br/>
+        <div class="form-links"><a href="{{ url_for('recuperar') }}">Esqueci minha senha</a><a
+                href="{{ url_for('cadastro') }}">Criar conta</a></div>
+    </form>
+</div>
+<script src="{{ url_for('static', filename='forms.js') }}"></script>
 {% endblock %}

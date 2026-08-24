@@ -27,6 +27,11 @@ document.querySelectorAll('[data-mask="telefone"]').forEach(input => input.addEv
     .replace(/^([\d]{2})([\d]{4})([\d]{4})$/, '($1) $2-$3');
 }));
 
+document.querySelectorAll('[data-mask="cep"]').forEach(input => input.addEventListener('input', () => {
+  input.value = input.value.replace(/\D/g, '').slice(0, 8)
+    .replace(/(\d{5})(\d)/, '$1-$2');
+}));
+
 document.querySelectorAll('#cpf-form').forEach(form => form.addEventListener('submit', event => {
   const cpf = form.querySelector('[data-mask="cpf"]');
   if (cpf && !cpfValido(cpf.value)) {

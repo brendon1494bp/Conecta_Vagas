@@ -19,7 +19,7 @@ pip install -r requirements.txt
 python run.py
 ```
 
-Abra `http://127.0.0.1:5000`. O banco local `conecta_vagas.db` é criado automaticamente e recebe as séries, RAs e escolas dos scripts em `dados/`. Para produção, defina `SECRET_KEY` em um arquivo `.env` e configure o banco compatível com a infraestrutura do projeto. As notificações usam SMTP quando `SMTP_HOST`, `SMTP_USER` e `SMTP_PASSWORD` estão configurados; sem SMTP, ficam registradas no log da aplicação.
+Abra `http://127.0.0.1:8000`. O banco local `conecta_vagas.db` é criado automaticamente pelo schema SQLite de desenvolvimento e recebe as séries, RAs e escolas dos scripts em `dados/`. Para produção, crie o banco MySQL executando `dados/script_criacao_db.sql`, carregue os scripts de inserção e defina `DATABASE_URL=mysql://usuario:senha@host:3306/conecta_vagas` e `SECRET_KEY` em um arquivo `.env`. Nunca versione o `.env`. Configure `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASSWORD`, `SMTP_FROM_NAME` e `SMTP_FROM` para habilitar o envio real de recuperação de senha e notificações. Para Gmail, use uma senha de aplicativo, nunca a senha principal da conta.
 
 O schema de `dados/script_criacao_db.sql` foi complementado com endereço do usuário, status e datas da solicitação, turnos oficiais (`MATUTINO`, `VESPERTINO`, `NOTURNO`, `INTEGRAL`) e mensagens de sistema. A estrutura original de escolas, RAs, séries, matches e mensagens foi preservada.
 

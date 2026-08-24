@@ -10,7 +10,8 @@
     <div class="row g-3">
       <div class="col-12 col-md-6"><label>Nome do aluno<input class="form-control" name="nome" maxlength="150" value="{{ solicitacao['nome'] if solicitacao else '' }}" required></label></div>
       <div class="col-12 col-md-6"><label>Série<select class="form-select" name="serie" required><option value="" selected disabled>Selecione a série</option>{% for item in series %}<option value="{{ item['id'] }}" {% if solicitacao and item['id']==solicitacao['id_serie'] %}selected{% endif %}>{{ item['nome'] }}</option>{% endfor %}</select></label></div>
-      <div class="col-12"><label>Endereço do aluno <span class="text-muted">(opcional)</span><input class="form-control" name="endereco" maxlength="255" value="{{ solicitacao['endereco'] if solicitacao else '' }}"></label></div>
+      <div class="col-12 col-md-4"><label>CEP do aluno <span class="text-muted">(opcional)</span><input class="form-control" name="cep" maxlength="9" inputmode="numeric" data-mask="cep" data-address-target="#endereco-aluno" data-address-status="#cep-status" value="{{ solicitacao['cep'] if solicitacao else '' }}"></label><small id="cep-status" class="form-text" aria-live="polite"></small></div>
+      <div class="col-12 col-md-8"><label>Endereço do aluno <span class="text-muted">(opcional)</span><input class="form-control" id="endereco-aluno" name="endereco" maxlength="255" value="{{ solicitacao['endereco'] if solicitacao else '' }}"></label></div>
     </div>
     <hr><h2>Situação atual</h2>
     <div class="row g-3">
@@ -28,5 +29,5 @@
     <button class="btn btn-primary">{{ 'Salvar alterações' if solicitacao else 'Salvar solicitação' }}</button>
   </form>
 </div>
-<script src="{{ url_for('static', filename='filters.js') }}"></script>
+<script src="{{ url_for('static', filename='filters.js') }}"></script><script src="{{ url_for('static', filename='masks.js') }}"></script><script src="{{ url_for('static', filename='cep.js') }}"></script>
 {% endblock %}

@@ -44,6 +44,7 @@ CREATE TABLE IF NOT EXISTS usuario (
     senha VARCHAR(255) NOT NULL,
     cpf VARCHAR(14) UNIQUE,
     telefone VARCHAR(20),
+    cep VARCHAR(8),
     endereco VARCHAR(255)
 ) ENGINE=InnoDB;
 
@@ -51,6 +52,7 @@ CREATE TABLE IF NOT EXISTS solicitacao (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nome VARCHAR(150) NOT NULL,
     endereco VARCHAR(255),
+    cep VARCHAR(8),
     id_serie INT NOT NULL,
     id_escola_atual INT NOT NULL,
     id_ra_desejada INT,

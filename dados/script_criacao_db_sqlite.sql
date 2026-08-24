@@ -1,0 +1,12 @@
+CREATE TABLE IF NOT EXISTS ra (id INTEGER PRIMARY KEY, nome TEXT NOT NULL);
+CREATE TABLE IF NOT EXISTS serie (id INTEGER PRIMARY KEY AUTOINCREMENT, nome TEXT NOT NULL UNIQUE);
+CREATE TABLE IF NOT EXISTS escola (id INTEGER PRIMARY KEY AUTOINCREMENT, nome TEXT NOT NULL, id_ra INTEGER, endereco TEXT, telefone TEXT, email TEXT, FOREIGN KEY(id_ra) REFERENCES ra(id));
+CREATE TABLE IF NOT EXISTS usuario (id INTEGER PRIMARY KEY AUTOINCREMENT, nome TEXT NOT NULL, email TEXT NOT NULL UNIQUE, senha TEXT NOT NULL, cpf TEXT UNIQUE, telefone TEXT, cep TEXT, endereco TEXT);
+CREATE TABLE IF NOT EXISTS solicitacao (id INTEGER PRIMARY KEY AUTOINCREMENT, nome TEXT NOT NULL, endereco TEXT, cep TEXT, id_serie INTEGER NOT NULL, id_escola_atual INTEGER NOT NULL, id_ra_desejada INTEGER, id_escola_desejada INTEGER, turno_atual TEXT NOT NULL, turno_desejado TEXT NOT NULL, id_usuario_responsavel INTEGER NOT NULL, motivo_troca TEXT, status TEXT NOT NULL DEFAULT 'AGUARDANDO_MATCH', data_criacao TEXT NOT NULL, data_atualizacao TEXT NOT NULL, FOREIGN KEY(id_usuario_responsavel) REFERENCES usuario(id));
+CREATE TABLE IF NOT EXISTS match_troca (id INTEGER PRIMARY KEY AUTOINCREMENT, id_solicitacao_a INTEGER NOT NULL, id_solicitacao_b INTEGER NOT NULL, status TEXT NOT NULL DEFAULT 'ATIVO', data_hora_criacao TEXT NOT NULL, FOREIGN KEY(id_solicitacao_a) REFERENCES solicitacao(id), FOREIGN KEY(id_solicitacao_b) REFERENCES solicitacao(id));
+CREATE TABLE IF NOT EXISTS mensagem (id INTEGER PRIMARY KEY AUTOINCREMENT, id_match INTEGER NOT NULL, mensagem TEXT NOT NULL, id_remetente INTEGER NOT NULL, lida INTEGER NOT NULL DEFAULT 0, tipo TEXT NOT NULL DEFAULT 'USUARIO', data_hora_envio TEXT NOT NULL, FOREIGN KEY(id_match) REFERENCES match_troca(id), FOREIGN KEY(id_remetente) REFERENCES usuario(id));
+CREATE TABLE IF NOT EXISTS recuperacao (token TEXT PRIMARY KEY, id_usuario INTEGER NOT NULL, expira_em TEXT NOT NULL, usado INTEGER NOT NULL DEFAULT 0);
+CREATE TABLE IF NOT EXISTS avaliacao (id INTEGER PRIMARY KEY AUTOINCREMENT, id_match INTEGER NOT NULL, id_usuario_avaliador INTEGER NOT NULL, nota INTEGER NOT NULL, comentario TEXT, data_hora_avaliacao TEXT NOT NULL, UNIQUE(id_match, id_usuario_avaliador), FOREIGN KEY(id_match) REFERENCES match_troca(id), FOREIGN KEY(id_usuario_avaliador) REFERENCES usuario(id));
+CREATE INDEX IF NOT EXISTS idx_escola_ra ON escola(id_ra);
+CREATE INDEX IF NOT EXISTS idx_solicitacao_status ON solicitacao(status);
+CREATE INDEX IF NOT EXISTS idx_solicitacao_usuario ON solicitacao(id_usuario_responsavel);
